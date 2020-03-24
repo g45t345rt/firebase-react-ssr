@@ -1,15 +1,16 @@
-module.exports = ({ body, initialState }) => {
+module.exports = ({ body, treeData, styles }) => {
     return `<html lang="en">
         <head>
             <title>Firebase REACT SSR</title>
             <meta charSet="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />          
+            ${styles}
         </head>
         <body>
             <div id="root">${body}</div>
         </body>
         <script>
-            window.__initialState = ${initialState}
+            window.__treeData = ${treeData}
         </script>
         <script src='/client.bundle.js'></script>
     </html>`

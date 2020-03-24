@@ -1,27 +1,18 @@
 const functions = require('firebase-functions')
-const React = require('react')
-const ReactDOMServer = require('react-dom/server')
 
 const template = require('./template')
 const ssr = require('./app-ssr')
 
-exports.app = functions.https.onRequest((req, res) => {
-    const context = {}
-    let initialState = {}
+exports.app = functions.https.onRequest(async (req, res) => {
+    const body = await ssr.renderApp(req.url)
+    res.status(ssr.context.status || 200)
 
-    const body = ReactDOMServer.renderToString(
-        React.createElement(ssr.default, {
-            url: req.url,
-            context,
-            initialState
-        })
-    )
-
-    res.status(context.status || 200)
-
+    const styles = ssr.sheet.getStyleTags()
+    console.log(styles)
     const html = template({
         body,
-        initialState: JSON.stringify(initialState)
+        styles,
+        treeData: JSON.stringify(ssr.context.tree)
     })
 
     res.send(html)
