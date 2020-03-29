@@ -63,3 +63,9 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# generated files
+public/report.html
+public/main.css
+public/client.bundle.js
+functions/app-ssr.js
