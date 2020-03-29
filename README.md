@@ -4,11 +4,13 @@ This is a template for creating a single web page app with React and deploy to F
 
 #### Features
 - React for interactive UI
+- Webpack to bundle js files
 - Deploy to Firebase Cloud functions
 - SSR (Server Side Rendering) for SEO (Search Engine Optimization)
 - Baobab for state management
 - Styled components for styling
 - SSRPrepass to wait for promises (fetch)
+- Fastify to control server routes or add proxy in no time
 
 #### WHY
 I got tired of recreating basic setup files everytime I started working on a new project. This template can save you a lot of time because you can start development instead of bundling files together.
