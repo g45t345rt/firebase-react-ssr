@@ -10,6 +10,9 @@ module.exports = {
         filename: "app-ssr.js",
         libraryTarget: "commonjs2"
     },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
     module: {
         rules: [
             {

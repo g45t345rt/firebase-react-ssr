@@ -13,7 +13,7 @@ This is a template for creating a single web page app with React and deploy to F
 - Fastify to control server routes or add proxy in no time
 
 #### WHY
-I got tired of recreating basic setup files everytime I started working on a new project. This template can save you a lot of time because you can start development instead of bundling files together.
+I got tired of recreating basic setup files everytime I started working on a new project. This template can save you a lot of time because you can start to develop right away instead of losing couple of days bundling files together.
 
 #### How does it work
 -  Webpack bundles the client (frontend) side code in one file named client.bundle.js
