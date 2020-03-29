@@ -1,8 +1,9 @@
-const path = require("path");
+const path = require("path")
+const mode = process.env.NODE_ENV || 'development'
 
 module.exports = {
     target: 'node',
-    mode: "development",
+    mode,
     entry: "./ssr.js",
     output: {
         path: path.resolve(__dirname, "../functions"),

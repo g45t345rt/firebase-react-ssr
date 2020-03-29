@@ -1,19 +1,36 @@
 ### FIREBASE REACT SSR
 
-This is a basic template for creating a website single page app to deploy at Google Firebase Function. It does implement SSR because I think it's must for SEO.
+This is a template for creating a single web page app with React and deploy to Firebase easily.
+
+#### Features
+- React for interactive UI
+- Deploy to Firebase Cloud functions
+- SSR (Server Side Rendering) for SEO (Search Engine Optimization)
+- Baobab for state management
+- Styled components for styling
+- SSRPrepass to wait for promises (fetch)
 
 #### WHY
-I got tired of recreating basic setup files everytime I started working on a new project. This template can save a lot of time because you can immediately start working on developing the website. Make sure you understand how it works before doing anything.
+I got tired of recreating basic setup files everytime I started working on a new project. This template can save you a lot of time because you can start development instead of bundling files together.
 
 #### How does it work
 -  Webpack bundles the client (frontend) side code in one file named client.bundle.js
--  SSR (Server Side Rendering) is bundle with webpack to app-ssr.js
+- Webpack aslo bundle the client code for server side rendering SSR named app-ssr.js
 -  Firebase rewrite all requests to function "app" -> the setup is in firebase.json at rewrites/function/app
 -  Firebase main "app" function return html page with react ssr
 `exports.app = functions.https.onRequest`
 
-#### NPM Package scripts
-- npm run build -> webpack client & ssr
-- npm run dev -> webpack client & ssr with watch (update on file change)
-- npm start -> firebase emulators:start
-- npm run deploy -> firebase deploy
+#### Development
+##### Install dependencies in app & functions folder
+`npm install`
+##### Build & watch webpack development
+`npm run build` to only build file once
+`npm run dev` to watch files
+##### Emulate firebase function
+`npm start`
+
+#### Deploy
+##### Build webpack production
+`npm run build-prod` build files (client.bundle.js & app-ssr.js) before deploying
+##### Firebase deploy
+`npm run deploy`

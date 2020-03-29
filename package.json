@@ -2,8 +2,10 @@
     "name": "firebase-reactssr",
     "description": "Starting template for Firebase React SSR",
     "scripts": {
-        "build": "npm run build --prefix ./app",
-        "dev": "npm run dev --prefix ./app",
+        "install": "cd app && npm install && cd ../functions && npm install",
+        "build": "cd app && npm run build",
+        "dev": "cd app && npm run dev",
+        "build-prod": "cd app && npm run build-prod",
         "start": "firebase emulators:start",
         "deploy": "firebase deploy"
     }
