@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Route, Switch, Link } from 'react-router-dom'
 import Baobab from 'baobab'
 
-import BaobabContext, { root } from './BaobabContext'
+import AppContext, { root } from './AppContext'
 const tree = new Baobab()
 if (typeof window !== 'undefined') {
     tree.set(window.__treeData)
@@ -18,7 +18,7 @@ const TestItem = styled.div`
 `
 
 class TestComponent extends React.Component {
-    static contextType = BaobabContext;
+    static contextType = AppContext;
 
     constructor (props) {
         super(props)
@@ -72,4 +72,4 @@ class App extends React.Component {
     }
 }
 
-export default root(tree, App)
+export default root({ tree }, App)
