@@ -3,7 +3,7 @@ const Fastify = require('fastify')
 const http = require('http')
 
 const template = require('./template')
-const ssr = require('./app-ssr')
+const { renderApp } = require('./app-ssr')
 
 let handleRequest = null
 const serverFactory = (handler, opts) => {
@@ -11,18 +11,20 @@ const serverFactory = (handler, opts) => {
     return http.createServer()
 }
 
-const fastify = Fastify({ serverFactory, modifyCoreObjects: false }) // we need modifyCoreObjects: false -> https://github.com/fastify/fastify/issues/946
+const fastify = Fastify({ serverFactory, logger: true, modifyCoreObjects: false }) // we need modifyCoreObjects: false -> https://github.com/fastify/fastify/issues/946
 
 fastify.get('*', async (request, reply) => {
-    const body = await ssr.renderApp(request.req.url)
-    const styles = ssr.sheet.getStyleTags()
+    const { body, context } = await renderApp(request.req.url)
+    const { sheet, helmet, tree, status } = context
+    const styles = sheet.getStyleTags()
+
     const html = template({
+        helmet,
         body,
         styles,
-        treeData: JSON.stringify(ssr.context.tree)
+        treeData: JSON.stringify(tree)
     })
-
-    reply.status(ssr.context.status || 200).type('text/html').send(html)
+    reply.status(status || 200).type('text/html').send(html)
 })
 
 exports.app = functions.https.onRequest((req, res) => {

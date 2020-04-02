@@ -3,18 +3,17 @@ import { StaticRouter } from 'react-router-dom'
 import { StyleSheetManager, ServerStyleSheet } from 'styled-components'
 import ssrPrepass from 'react-ssr-prepass'
 import { renderToStaticMarkup } from 'react-dom/server'
+import Baobab from 'baobab'
+import Helmet from 'react-helmet'
 
-import App from './src/app'
-
-export const sheet = new ServerStyleSheet()
-export const context = {}
+import App from './src/App'
 
 class ServerApp extends React.Component {
     render () {
-        const { url } = this.props
+        const { url, context } = this.props
         return (
-            <StyleSheetManager sheet={sheet.instance}>
-                <StaticRouter location={url} context={context}>
+            <StyleSheetManager sheet={context.sheet.instance}>
+                <StaticRouter location={url}>
                     <App context={context} />
                 </StaticRouter>
             </StyleSheetManager>
@@ -22,14 +21,26 @@ class ServerApp extends React.Component {
     }
 }
 
+const sheet = new ServerStyleSheet()
 export const renderApp = async (url) => {
-    const element = createElement(ServerApp, { url })
+    const context = {
+        sheet,
+        tree: new Baobab()
+    }
+
+    const element = createElement(ServerApp, { url, context })
     console.log('Fetching data for SSR')
     await ssrPrepass(element, (element, instance) => {
         if (instance && instance.fetch) {
-            return instance.fetch()
+            const { location } = instance.props
+            if (location && location.pathname === url || instance.fetchSSR) {
+                return instance.fetch()
+            }
         }
     })
     console.log('Done fetching data for SSR')
-    return renderToStaticMarkup(element)
+
+    const body = renderToStaticMarkup(element)
+    context.helmet = Helmet.renderStatic()
+    return { body, context }
 }

@@ -1,9 +1,10 @@
-module.exports = ({ body, treeData, styles }) => {
-    return `<html lang="en">
+module.exports = ({ helmet, body, treeData, styles }) => {
+    return `<!DOCTYPE html>
+    <html>
         <head>
-            <title>Firebase REACT SSR</title>
-            <meta charSet="utf-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />          
+            ${helmet.title.toString()}
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1" />  
             ${styles}
         </head>
         <body>

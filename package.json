@@ -1,5 +1,5 @@
 {
-    "name": "firebase-reactssr",
+    "name": "firebase-react-ssr",
     "description": "Starting template for Firebase React SSR",
     "scripts": {
         "install": "cd app && npm install && cd ../functions && npm install",

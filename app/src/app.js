@@ -1,16 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Route, Switch, Link } from 'react-router-dom'
-import Baobab from 'baobab'
 
-import AppContext, { root } from './AppContext'
-const tree = new Baobab()
-if (typeof window !== 'undefined') {
-    tree.set(window.__treeData)
-    delete window.__treeData
-}
+import AppContext from './AppContext'
+import NotFound from './NotFound'
 
-const TestItem = styled.div`
+export const TestItem = styled.div`
     border: thin solid black;
     border-radius: 5px;
     padding: 5px;
@@ -18,13 +13,17 @@ const TestItem = styled.div`
 `
 
 class TestComponent extends React.Component {
-    static contextType = AppContext;
+    static contextType = AppContext
+    fetchSSR = true
 
     constructor (props) {
         super(props)
+
+        this.fetch = this.fetch.bind(this)
     }
 
     fetch () {
+        const { tree } = this.context
         return new Promise((resolve) => {
             setTimeout(() => {
                 tree.set('data', 'test')
@@ -34,27 +33,21 @@ class TestComponent extends React.Component {
     }
 
     render () {
-        return <div>Tree data: {this.context.tree.get('data')}</div>
+        const { tree } = this.context
+        return <div>Tree data: <span>{tree.get('data')}</span></div>
     }
 }
 
-class App extends React.Component {
-    constructor (props) {
-        super(props)
-
-        if (props.context) {
-            props.context.tree = tree
-        }
-    }
-
+export default class App extends React.Component {
     render () {
-        return <div>
+        const { context } = this.props
+        return <AppContext.Provider value={context}>
             <ul>
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/hrtyh456">404</Link></li>
             </ul>
             <Switch>
-                <Route path="/" exact render={() => {
+                <Route path="/" exact strict render={() => {
                     return <div>
                         <h1>Hello world</h1>
                         <h2>Styled component</h2>
@@ -63,13 +56,8 @@ class App extends React.Component {
                         <TestComponent />
                     </div>
                 }} />
-                <Route render={({ staticContext }) => {
-                    if (staticContext) staticContext.status = 404
-                    return <div>404</div>
-                }} />
+                <Route component={NotFound} />
             </Switch>
-        </div>
+        </AppContext.Provider>
     }
 }
-
-export default root({ tree }, App)
