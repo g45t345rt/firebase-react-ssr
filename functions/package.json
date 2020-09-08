@@ -11,12 +11,12 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "8"
+    "node": "10"
   },
   "dependencies": {
-    "fastify": "^2.13.0",
-    "firebase-admin": "^8.6.0",
-    "firebase-functions": "^3.3.0"
+    "fastify": "^2.15.3",
+    "firebase-admin": "^8.13.0",
+    "firebase-functions": "^3.11.0"
   },
   "devDependencies": {
     "eslint": "^5.12.0",
